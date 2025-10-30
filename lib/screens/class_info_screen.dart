@@ -6,7 +6,6 @@ import 'package:grades_cracker/widgets/grade_container_widget.dart';
 import 'package:hive/hive.dart';
 
 class ClassInfoScreen extends StatefulWidget{
-
   ClassInfoScreen({super.key, required this.studentClass});
   final StudentClass studentClass;
 
