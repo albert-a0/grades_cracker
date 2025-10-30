@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "369483294979",
+    "project_id": "gradescracker",
+    "storage_bucket": "gradescracker.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369483294979:android:85a51588d2d0cfd2532136",
+        "android_client_info": {
+          "package_name": "com.example.grades_cracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsUvxLkdWe7TAQps3U3AjaRsifm7gsrF4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
