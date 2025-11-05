@@ -22,7 +22,71 @@ class _ClassInfoScreenState extends State<ClassInfoScreen> {
   List<String> list = <String>['HOMEWORK', 'TEST', 'QUIZ', 'OTHER'];
   late var selectedValue = list.first;
   TextEditingController gradescont = TextEditingController();
-  var grade = "";
+
+  double calculateWeightedTest(){
+    double result = 0.0;
+    double test= 0;
+    for(int  i = 0; i < gradeTypes.length; i++ ){
+      if(gradeTypes.elementAt(i) == "TEST"){
+        test++;
+        result+= ds.elementAt(i);
+      }
+    }
+    if(test == 0){
+      return 0;
+    }
+    result = result/test;
+    return result;
+  }
+
+  double calculateWeightedQuizes() {
+    double result = 0.0;
+    double test = 0;
+    for (int i = 0; i < gradeTypes.length; i++) {
+      if (gradeTypes.elementAt(i) == "QUIZ") {
+        test++;
+        result += ds.elementAt(i);
+      }
+    }
+    if (test == 0) {
+      return 0;
+    }
+    result = (result / test) * (double.parse(widget.studentClass.quizPercent.toString()) /100);
+    print((double.parse(widget.studentClass.quizPercent.toString()) /100));
+    return result;
+  }
+
+  double calculateWeightedHomeworks(){
+    double result = 0.0;
+    double test= 0;
+    for(int  i = 0; i < gradeTypes.length; i++ ){
+      if(gradeTypes.elementAt(i) == "HOMEWORK"){
+        test++;
+        result+= ds.elementAt(i);
+      }
+    }
+    if(test == 0){
+      return 0;
+    }
+    result = result/test;
+    return result;
+  }
+
+  double calculateWeightedOthers(){
+    double result = 0.0;
+    double test= 0;
+    for(int  i = 0; i < gradeTypes.length; i++ ){
+      if(gradeTypes.elementAt(i) == "OTHER"){
+        test++;
+        result+= ds.elementAt(i);
+      }
+    }
+    if(test == 0){
+      return 0;
+    }
+    result = result/test;
+    return result;
+  }
 
 
   void hello(int ii) {
@@ -52,55 +116,75 @@ class _ClassInfoScreenState extends State<ClassInfoScreen> {
         ],
       ),
       body: SafeArea(
-        child: Padding(padding: EdgeInsetsGeometry.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 10),
-              Container(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    DropdownButton(value: selectedValue,items:list.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(value: value, child: Text(value));
-                    }).toList(), onChanged: (iitem){
-                      setState(() {
-                        selectedValue = iitem.toString();
-                      });
-                    }),
+        child: SingleChildScrollView(
+          child: Padding(padding: EdgeInsetsGeometry.all(5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 2),
 
-                    Flexible(
-                      child: TextField(keyboardType: TextInputType.number,decoration: InputDecoration(
-                        labelText: "Grade",
-                      ),controller: gradescont,),
-                    )
-                  ],
+                Container(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      DropdownButton(value: selectedValue,items:list.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(value: value, child: Text(value));
+                      }).toList(), onChanged: (iitem){
+                        setState(() {
+                          selectedValue = iitem.toString();
+                        });
+                      }),
+
+                      Flexible(
+                        child: TextField(keyboardType: TextInputType.number,decoration: InputDecoration(
+                          labelText: "Grade",
+                        ),controller: gradescont,),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              TextButton(onPressed: (){
-                print(selectedValue.toString());
-                setState(() {
-                  widget.studentClass.gradesType.add(selectedValue.toString());
-                  widget.studentClass.grades.add(int.parse(gradescont.text));
-                  widget.studentClass.save();
-                  gradeTypes = widget.studentClass.gradesType;
-                  ds = widget.studentClass.grades;
-                  gradescont.clear();
-                });
-              }, child: Text("Add grade")),
-              Flexible(
-                child:ListView.builder(itemCount:ds.length,itemBuilder: (ctx,inds) {
-                  return Container(
-                    width: double.infinity,
-                    child: GradeContainerWidget(hello,grade: ds.elementAt(inds),ins: inds,gradetype:gradeTypes.elementAt(inds)),
-                  );
-                }),
-              )
-            ],
+                TextButton(onPressed: (){
+
+                  try{
+
+                    double grade = double.parse(gradescont.text);
+
+                    setState(() {
+                      widget.studentClass.gradesType.add(selectedValue.toString());
+                      widget.studentClass.grades.add(grade);
+                      widget.studentClass.save();
+                      gradeTypes = widget.studentClass.gradesType;
+                      ds = widget.studentClass.grades;
+                      gradescont.clear();
+                    });
+                  }catch (e){
+                    gradescont.clear();
+                  }
+
+                }, child: Text("Add grade")),
+                SizedBox(height: 2),
+                SizedBox(
+                  height: 500,
+                  child: ListView.builder(itemCount:ds.length,itemBuilder: (ctx,inds) {
+                      return Container(
+                        width: double.infinity,
+                        child: GradeContainerWidget(hello,grade: ds.elementAt(inds),ins: inds,gradetype:gradeTypes.elementAt(inds)),
+                      );
+                    })
+                ),
+
+                Text("Summary"),
+                Text("TEST AVERAGE: ${calculateWeightedTest()}"),
+                Text("QUIZ AVERAGE: ${calculateWeightedQuizes()}"),
+                Text("HOMEWORK AVERAGE: ${calculateWeightedHomeworks()}"),
+                Text("OTHER AVERAGE: ${calculateWeightedOthers()}"),
+
+              ],
+            ),
           ),
+        )
         ),
-      )
-    );
+      );
   }
 
 }

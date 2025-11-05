@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class GradeContainerWidget extends StatelessWidget{
   GradeContainerWidget(this.pressed,{super.key, required this.grade,required this.ins,this.gradetype});
-  final int grade;
+  final double grade;
   final int ins;
   void Function(int ii) pressed;
   final String? gradetype;

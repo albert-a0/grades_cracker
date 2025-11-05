@@ -17,6 +17,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
   final box = Hive.box("appbox3");
   late var st = box.values;
 
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -50,7 +51,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(st.elementAt(ind).className.toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
-                              Text("GPA: 4.0")
+                              Text("Teacher: ${st.elementAt(ind).classTeacher}")
                             ]
                         ),
                         Spacer(),

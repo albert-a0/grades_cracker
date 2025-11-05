@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 import 'package:hive/hive.dart';
 
 part 'student_class.g.dart';
@@ -10,9 +12,29 @@ class StudentClass extends HiveObject {
   String? className;
 
   @HiveField(1)
-  List<int> grades = [];
+  String? classTeacher;
 
   @HiveField(2)
+  double? classCredit;
+
+
+  @HiveField(3)
+  double? homeworkPercent;
+
+  @HiveField(4)
+  double? testPercent;
+
+  @HiveField(5)
+  double? quizPercent;
+
+  @HiveField(6)
+  double? otherPercent;
+
+
+  @HiveField(7)
+  List<double> grades = [];
+
+  @HiveField(8)
   List<String> gradesType = [];
 
 }

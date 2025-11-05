@@ -10,6 +10,8 @@ import 'package:grades_cracker/screens/class_add_screen.dart';
 import 'package:grades_cracker/screens/class_info_screen.dart';
 import 'package:grades_cracker/screens/classes_screen.dart';
 import 'package:grades_cracker/screens/dash_screen.dart';
+import 'package:grades_cracker/screens/questions_screen.dart';
+import 'package:grades_cracker/screens/study_screen.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_ai/firebase_ai.dart';
@@ -48,7 +50,12 @@ class MyApp extends StatelessWidget {
             final selectedClass = state.extra as StudentClass;
 
             return ClassInfoScreen(studentClass: selectedClass);}),
-            GoRoute(path: "/aiassistant",builder: (ctx,state) {return AppAssistant();})
+          GoRoute(path: "/aiassistant",builder: (ctx,state) {return AppAssistant();}),
+          GoRoute(path: "/study",builder: (ctx,state) {return StudyScreen();}),
+          GoRoute(path: "/study/questions",builder: (ctx,state) {
+            final questions = state.extra as String;
+
+            return QuestionsScreen(questions);})
         ]  
       ),
     );
